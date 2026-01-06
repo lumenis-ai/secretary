@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# tauri
+packages/app/src-tauri/target
+packages/app/src-tauri/gen/schemas
