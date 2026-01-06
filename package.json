@@ -20,6 +20,8 @@
     "eslint-plugin-format": "^1.1.0",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.26",
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "typescript": "^5.9.3"
   }
 }

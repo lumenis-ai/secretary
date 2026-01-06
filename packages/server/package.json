@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsdown && pkg --output ./dist/server ./dist/index.cjs"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.6",
+    "hono": "^4.11.3"
+  },
+  "devDependencies": {
+    "@yao-pkg/pkg": "^6.11.0",
+    "tsdown": "0.19.0-beta.3",
+    "tsx": "^4.7.1"
+  }
+}
