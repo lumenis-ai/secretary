@@ -6,7 +6,7 @@ settings:
 
 importers:
 
-  .:
+  packages/app:
     dependencies:
       '@tauri-apps/api':
         specifier: ^2
