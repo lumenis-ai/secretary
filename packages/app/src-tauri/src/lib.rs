@@ -1,8 +1,11 @@
-use std::sync::Mutex;
 use serde_json::json;
-use tauri_plugin_shell::{ShellExt, process::{CommandEvent, CommandChild}};
-use tauri::{Manager, async_runtime::spawn};
+use std::sync::Mutex;
 use tauri::RunEvent;
+use tauri::{async_runtime::spawn, Manager};
+use tauri_plugin_shell::{
+    process::{CommandChild, CommandEvent},
+    ShellExt,
+};
 use tauri_plugin_store::StoreExt;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
@@ -19,6 +22,14 @@ struct AppState {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_http::init())
+        .plugin(
+            tauri_plugin_log::Builder::new()
+                .level(tauri_plugin_log::log::LevelFilter::Info)
+                .build(),
+        )
+        .plugin(tauri_plugin_notification::init())
+        .plugin(tauri_plugin_window_state::Builder::new().build())
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_store::Builder::default().build())
         .plugin(tauri_plugin_opener::init())
@@ -30,7 +41,7 @@ pub fn run() {
 
             let server_sidebar_command = app.shell().sidecar("server").unwrap();
             let (mut rx, child) = server_sidebar_command.spawn().unwrap();
-            spawn(async move  {
+            spawn(async move {
                 while let Some(event) = rx.recv().await {
                     match event {
                         CommandEvent::Stdout(line) | CommandEvent::Stderr(line) => {
@@ -47,17 +58,16 @@ pub fn run() {
             });
             *app_state.server_child.lock().unwrap() = Some(child);
 
-
             Ok(())
         })
         .build(tauri::generate_context!())
         .expect("error while running tauri application")
         .run(|app, event| match event {
             RunEvent::ExitRequested { .. } => {
-              if let Some(child) = app.state::<AppState>().server_child.lock().unwrap().take() {
-                child.kill().unwrap();
-              }
+                if let Some(child) = app.state::<AppState>().server_child.lock().unwrap().take() {
+                    child.kill().unwrap();
+                }
             }
             _ => {}
-          });
+        });
 }
