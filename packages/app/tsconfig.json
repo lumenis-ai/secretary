@@ -16,6 +16,8 @@
     "isolatedModules": true,
     "skipLibCheck": true
   },
-  "references": [{ "path": "./tsconfig.node.json" }],
-  "include": ["packages/app/src"]
+  "references": [
+    { "path": "./tsconfig.node.json" }
+  ],
+  "include": ["/src"]
 }

@@ -1,8 +1,8 @@
 {
-  "name": "server",
+  "name": "assistant-server",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "node --watch --import jiti/register src/index.ts",
     "build": "tsdown && pkg --output ./dist/server ./dist/index.cjs"
   },
   "dependencies": {
@@ -11,7 +11,6 @@
   },
   "devDependencies": {
     "@yao-pkg/pkg": "^6.11.0",
-    "tsdown": "0.19.0-beta.3",
-    "tsx": "^4.7.1"
+    "tsdown": "0.19.0-beta.3"
   }
 }

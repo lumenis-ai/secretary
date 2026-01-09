@@ -26,3 +26,4 @@ dist-ssr
 # tauri
 packages/app/src-tauri/target
 packages/app/src-tauri/gen/schemas
+packages/app/src-tauri/binaries/*

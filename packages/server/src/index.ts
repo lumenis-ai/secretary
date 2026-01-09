@@ -12,7 +12,8 @@ const server = serve({
   fetch: app.fetch,
   port: 0,
 }, (info) => {
-  console.warn(`Assistant server is running on http://localhost:${info.port}`)
+  // eslint-disable-next-line no-console
+  console.info(`PORT=${info.port}`)
 })
 
 process.on('SIGINT', () => {
