@@ -2,8 +2,9 @@ shellEmulator: true
 
 trustPolicy: no-downgrade
 trustPolicyExclude:
-  - undici-types@6.21.0
+  - langium@3.3.1
   - semver@6.3.1
+  - undici-types@6.21.0
 
 packages:
   - 'packages/*'
