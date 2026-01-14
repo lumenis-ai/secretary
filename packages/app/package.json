@@ -10,6 +10,7 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@ai-sdk/react": "^3.0.30",
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-collapsible": "^1.1.12",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -45,7 +46,7 @@
     "lucide-react": "^0.562.0",
     "motion": "^12.25.0",
     "nanoid": "^5.1.6",
-    "ollama": "^0.6.3",
+    "ollama": "catalog:",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router": "^7.12.0",

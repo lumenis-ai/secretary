@@ -31,7 +31,7 @@ pub fn run() {
         .manage(AppState::default())
         .setup(|app| {
             let app_state = app.state::<AppState>();
-            let store = app.store("data.json").unwrap();
+            let store = app.store("settings.json").unwrap();
 
             let server_sidebar_command = app.shell().sidecar("server").unwrap();
             let (mut rx, child) = server_sidebar_command.spawn().unwrap();

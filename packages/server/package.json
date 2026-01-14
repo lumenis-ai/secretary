@@ -2,15 +2,20 @@
   "name": "assistant-server",
   "type": "module",
   "scripts": {
-    "dev": "node --watch --import jiti/register src/index.ts",
+    "dev": "PORT=13140 && tsx watch src/index.ts",
     "build": "tsdown && pkg --output ./dist/server ./dist/index.cjs"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.6",
-    "hono": "^4.11.3"
+    "ai": "^6.0.25",
+    "hono": "^4.11.3",
+    "ollama": "catalog:",
+    "ollama-ai-provider-v2": "^2.0.0",
+    "zod": "^4.3.5"
   },
   "devDependencies": {
     "@yao-pkg/pkg": "^6.11.0",
-    "tsdown": "0.19.0-beta.3"
+    "tsdown": "0.19.0-beta.3",
+    "tsx": "^4.21.0"
   }
 }
