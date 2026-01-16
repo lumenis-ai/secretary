@@ -26,7 +26,7 @@ The model manager is familiar with the configuration of various models, includin
   },
   providerOptions: {
     ollama: {
-      think: true,
+      think: false,
     },
   },
 })
