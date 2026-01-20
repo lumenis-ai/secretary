@@ -36,6 +36,4 @@ packages/server/prisma/src/prisma
 packages/server/dev.db
 packages/server/prisma/migrations
 packages/server/.mastra
-packages/server/src/mastra/mastra.db
-packages/server/src/mastra/mastra.db-shm
-packages/server/src/mastra/mastra.db-wal
+packages/server/src/mastra/mastra.db*

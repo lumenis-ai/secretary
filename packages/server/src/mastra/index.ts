@@ -9,7 +9,6 @@ import { modelManager } from './agents/model-manager'
 export const mastra = new Mastra({
   agents: { modelManager },
   storage: new LibSQLStore({
-    // @ts-expect-error - id is not a valid property in LibSQLConfig
     id: 'mastra-storage',
     // stores observability, scores, ... into memory storage, if it needs to persist, change to file:../mastra.db
     url: process.env.MASTRA_DATABASE_URL!,

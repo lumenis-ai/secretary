@@ -7,8 +7,4 @@ export default antfu({
     'pnpm/json-enforce-catalog': 'off',
     'pnpm/yaml-enforce-settings': 'off',
   },
-  ignores: [
-    'packages/server/src/prisma/**/*.ts',
-    'packages/server/prisma/migrations/**/*',
-  ],
 })

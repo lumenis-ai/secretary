@@ -2,8 +2,8 @@
   "name": "secretary-server",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch --env-file .env src/index.ts",
-    "build": "tsdown && pkg --output ./dist/server ./dist/index.mjs"
+    "dev": "mastra dev",
+    "build": "mastra build && pkg --output ./dist/server ./.mastra/output/index.mjs"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.6",
@@ -24,7 +24,6 @@
   "devDependencies": {
     "@yao-pkg/pkg": "^6.11.0",
     "dotenv": "^17.2.3",
-    "tsdown": "0.19.0-beta.3",
     "tsx": "^4.21.0"
   }
 }
