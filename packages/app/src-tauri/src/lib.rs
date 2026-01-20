@@ -8,7 +8,6 @@ use tauri_plugin_shell::{
 };
 use tauri_plugin_store::StoreExt;
 
-
 #[derive(Default)]
 struct AppState {
     server_child: Mutex<Option<CommandChild>>,
@@ -17,6 +16,7 @@ struct AppState {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_http::init())
         .plugin(
             tauri_plugin_log::Builder::new()

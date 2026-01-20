@@ -5,5 +5,10 @@ export default antfu({
   react: true,
   rules: {
     'pnpm/json-enforce-catalog': 'off',
+    'pnpm/yaml-enforce-settings': 'off',
   },
+  ignores: [
+    'packages/server/src/prisma/**/*.ts',
+    'packages/server/prisma/migrations/**/*',
+  ],
 })

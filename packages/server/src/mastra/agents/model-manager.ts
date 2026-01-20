@@ -1,10 +1,11 @@
-import { ToolLoopAgent } from 'ai'
+import { Agent } from '@mastra/core/agent'
+import { Memory } from '@mastra/memory'
 import { ollama } from 'ollama-ai-provider-v2'
-import { deleteOllamaModel, listOllamaModels, pullOllamaModel, showOllamaModel } from '@/tools/ollama'
+import { deleteOllamaModel, listOllamaModels, pullOllamaModel, showOllamaModel } from '../tools/ollama'
 
-export const modelManager = new ToolLoopAgent({
+export const modelManager = new Agent({
   id: 'model-manager',
-  model: ollama('qwen3:1.7b'),
+  name: 'Model Manager',
   instructions: `# Role: Model Manager
 
 ## Profile
@@ -18,15 +19,12 @@ The model manager is familiar with the configuration of various models, includin
 - pull a new model from Ollama with the tool \`pullOllamaModel\`
 - delete a model from Ollama with the tool \`deleteOllamaModel\`
 `,
+  model: ollama('qwen3:1.7b'),
+  memory: new Memory(),
   tools: {
     listOllamaModels,
     showOllamaModel,
     deleteOllamaModel,
     pullOllamaModel,
-  },
-  providerOptions: {
-    ollama: {
-      think: false,
-    },
   },
 })

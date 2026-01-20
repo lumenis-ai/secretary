@@ -1,18 +1,20 @@
+import type { HonoBindings, HonoVariables } from '@mastra/hono'
 import process from 'node:process'
 import { serve } from '@hono/node-server'
+import {
+  MastraServer,
+} from '@mastra/hono'
 import { Hono } from 'hono'
-import { cors } from 'hono/cors'
-import { staffsRoute } from '@/routes/staffs'
+import { mastra } from '@/mastra'
 
-const app = new Hono()
+const app = new Hono<({ Bindings: HonoBindings, Variables: HonoVariables })>()
 
-app.use(cors())
-
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
+const masterServer = new MastraServer({
+  app,
+  mastra,
 })
-
-app.route('/staffs', staffsRoute)
+// eslint-disable-next-line antfu/no-top-level-await
+await masterServer.init()
 
 const server = serve({
   fetch: app.fetch,

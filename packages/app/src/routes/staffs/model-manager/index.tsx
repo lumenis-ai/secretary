@@ -28,17 +28,19 @@ import {
 import { PromptInput, PromptInputActionAddAttachments, PromptInputActionMenu, PromptInputActionMenuContent, PromptInputActionMenuTrigger, PromptInputAttachment, PromptInputAttachments, PromptInputBody, PromptInputFooter, PromptInputHeader, PromptInputProvider, PromptInputSubmit, PromptInputTextarea } from '@/components/ai-elements/prompt-input'
 import { Reasoning, ReasoningContent, ReasoningTrigger } from '@/components/ai-elements/reasoning'
 import { Tool, ToolContent, ToolHeader, ToolInput, ToolOutput } from '@/components/ai-elements/tool'
+import { useConversationId } from '@/hooks/use-conversation-id'
 import { useServer } from '@/hooks/use-server'
 
 export default function ModelManager() {
   const { serverBaseUrl } = useServer()
+  const { conversationId } = useConversationId()
 
   const { messages, sendMessage, status, error, addToolApprovalResponse } = useChat({
+    id: conversationId.current,
     transport: new DefaultChatTransport({
       api: `${serverBaseUrl}/staffs/model-manager`,
     }),
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
-
   })
 
   const handleSubmit = (message: PromptInputMessage) => {

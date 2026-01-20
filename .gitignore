@@ -23,7 +23,19 @@ dist-ssr
 *.sln
 *.sw?
 
+# development
+.env
+
 # tauri
 packages/app/src-tauri/target
 packages/app/src-tauri/gen/schemas
 packages/app/src-tauri/binaries/*
+
+# server
+packages/server/prisma/src/prisma
+packages/server/dev.db
+packages/server/prisma/migrations
+packages/server/.mastra
+packages/server/src/mastra/mastra.db
+packages/server/src/mastra/mastra.db-shm
+packages/server/src/mastra/mastra.db-wal

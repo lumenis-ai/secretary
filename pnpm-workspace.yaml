@@ -1,14 +1,11 @@
 shellEmulator: true
 
-trustPolicy: no-downgrade
-trustPolicyExclude:
-  - langium@3.3.1
-  - semver@6.3.1
-  - undici-types@6.21.0
+trustPolicy: off
 
 packages:
-  - 'packages/*'
+  - packages/*
 catalog:
   ollama: ^0.6.3
 onlyBuiltDependencies:
+  - better-sqlite3
   - esbuild
