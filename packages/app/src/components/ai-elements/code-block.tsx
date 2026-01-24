@@ -6,7 +6,6 @@ import { CheckIcon, CopyIcon } from 'lucide-react'
 import {
 
   createContext,
-  use,
   useEffect,
   useRef,
   useState,

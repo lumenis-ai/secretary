@@ -8,7 +8,7 @@
   "dependencies": {
     "@hono/node-server": "^1.19.6",
     "@mastra/ai-sdk": "1.0.0-beta.16",
-    "@mastra/core": "1.0.0-beta.25",
+    "@mastra/core": "catalog:",
     "@mastra/hono": "0.1.0-beta.20",
     "@mastra/libsql": "1.0.0-beta.13",
     "@mastra/loggers": "1.0.0-beta.4",

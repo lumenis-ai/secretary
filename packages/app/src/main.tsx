@@ -3,8 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { HashRouter, Navigate, Route, Routes } from 'react-router'
 import BasicLayout from './layouts/basic'
-import Models from './routes/models'
-import ModelManager from './routes/staffs/model-manager'
+import Chat from './routes/chat'
 import '@/assets/styles/root.css'
 
 const queryClient = new QueryClient()
@@ -15,9 +14,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <HashRouter>
         <Routes>
           <Route path="/" element={<BasicLayout />}>
-            <Route index element={<Navigate to="/staffs/model-manager" replace />} />
-            <Route path="/staffs/model-manager" element={<ModelManager />} />
-            <Route path="/models" element={<Models />} />
+            <Route index element={<Navigate to="/chat" replace />} />
+            <Route path="/chat" element={<Chat />} />
           </Route>
         </Routes>
       </HashRouter>

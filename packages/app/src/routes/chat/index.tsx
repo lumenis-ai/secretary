@@ -1,7 +1,11 @@
+import type { StorageListMessagesOutput } from '@mastra/core/storage'
 import type { FileUIPart, TextUIPart, ToolUIPart } from 'ai'
 import type { PromptInputMessage } from '@/components/ai-elements/prompt-input'
 import { useChat } from '@ai-sdk/react'
+import { useQuery } from '@tanstack/react-query'
 import { DefaultChatTransport, lastAssistantMessageIsCompleteWithToolCalls } from 'ai'
+import { useEffect, useMemo } from 'react'
+import { useSearchParams } from 'react-router'
 import {
   Confirmation,
   ConfirmationAccepted,
@@ -30,15 +34,36 @@ import { Reasoning, ReasoningContent, ReasoningTrigger } from '@/components/ai-e
 import { Tool, ToolContent, ToolHeader, ToolInput, ToolOutput } from '@/components/ai-elements/tool'
 import { useServer } from '@/hooks/use-server'
 
-export default function ModelManager() {
+export default function Chat() {
   const { serverBaseUrl } = useServer()
 
-  const { messages, sendMessage, status, error, addToolApprovalResponse } = useChat({
+  const { messages, sendMessage, setMessages, status, error, addToolApprovalResponse } = useChat({
     transport: new DefaultChatTransport({
       api: `${serverBaseUrl}/staffs/model-manager`,
     }),
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
   })
+
+  const [searchParams] = useSearchParams()
+  const currentThreadId = useMemo(() => searchParams.get('threadId'), [searchParams])
+  const { data: threadMessagesOutput } = useQuery<StorageListMessagesOutput>({
+    queryKey: ['thread', serverBaseUrl, currentThreadId],
+    queryFn: () => {
+      return fetch(`${serverBaseUrl}/api/memory/threads/${currentThreadId}/messages`).then(res => res.json())
+    },
+    enabled: () => !!currentThreadId,
+  })
+  useEffect(() => {
+    if (!threadMessagesOutput?.messages?.length) {
+      return
+    }
+
+    setMessages(threadMessagesOutput?.messages?.map(thread => ({
+      id: thread.id,
+      role: thread.role,
+      parts: thread.content.parts,
+    })))
+  }, [setMessages, threadMessagesOutput])
 
   const handleSubmit = (message: PromptInputMessage) => {
     const parts: Array<TextUIPart | FileUIPart> = [
@@ -63,22 +88,6 @@ export default function ModelManager() {
 
   return (
     <div className="flex flex-col h-full w-full bg-linear-to-br from-background via-background to-muted/20">
-      {/* Header */}
-      <div className="border-b bg-background/80 backdrop-blur-sm px-6 py-4 flex items-center justify-between">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight">Model Manager</h1>
-          <p className="text-sm text-muted-foreground truncate">The model manager is familiar with the configuration of various models, including local Ollama and common LLM Gateways.</p>
-        </div>
-        {messages.length > 0 && (
-          <div className="text-xs text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-full">
-            {messages.length}
-            {' '}
-            messages
-          </div>
-        )}
-      </div>
-
-      {/* Messages Area */}
       <Conversation className="flex-1 px-4 py-6">
         <ConversationContent className="max-w-4xl mx-auto">
           <div className="space-y-6">
@@ -211,7 +220,7 @@ export default function ModelManager() {
           {error && (
             <div className="mt-6 mx-auto max-w-2xl rounded-xl border-2 border-destructive/30 bg-destructive/5 p-5 text-destructive shadow-lg shadow-destructive/5 animate-in fade-in-0 slide-in-from-top-4 duration-500">
               <div className="flex items-start gap-3">
-                <div className="flex-shrink-0 w-5 h-5 rounded-full bg-destructive/20 flex items-center justify-center mt-0.5">
+                <div className="shrink-0 w-5 h-5 rounded-full bg-destructive/20 flex items-center justify-center mt-0.5">
                   <span className="text-xs">!</span>
                 </div>
                 <div className="flex-1">
