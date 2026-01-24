@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev:app": "pnpm --filter assistant-app dev",
+    "dev:app": "pnpm --filter secretary-app dev",
     "build:app": "jiti scripts/buildApp.ts",
     "lint": "eslint",
     "lint:fix": "eslint --fix",

@@ -5,10 +5,10 @@ import { platform } from 'node:os'
 import { consola } from 'consola'
 import { $ } from 'zx'
 
-consola.start('Building assistant app...\n')
+consola.start('Building secretary app...\n')
 
 consola.start('Build server binary...')
-await $`pnpm --filter assistant-server build`
+await $`pnpm --filter secretary-server build`
 const ext = platform() === 'win32' ? '.exe' : ''
 const rustInfo = await $`rustc -vV`.text()
 const targetTriple = /host: (\S+)/.exec(rustInfo)![1]
@@ -19,7 +19,7 @@ renameSync(
 consola.success('Server binary built\n')
 
 consola.start('Build app...')
-await $`pnpm --filter assistant-app build`
+await $`pnpm --filter secretary-app build`
 consola.success('App built\n')
 
-consola.success('Assistant app built')
+consola.success('Secretary app built')

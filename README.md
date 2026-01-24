@@ -1,3 +1,3 @@
-# Assistant
+# Secretary
 
-Personal Assistant with AI
+Personal Secretary with AI
