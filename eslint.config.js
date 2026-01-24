@@ -9,6 +9,10 @@ export default antfu(
       'pnpm/json-enforce-catalog': 'off',
       'pnpm/yaml-enforce-settings': 'off',
     },
+    ignores: [
+      'packages/app/src/components/ui/**',
+      'packages/app/src/components/ai-elements/**',
+    ],
   },
   ...pluginQuery.configs['flat/recommended'],
 )
