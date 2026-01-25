@@ -1,12 +1,13 @@
 shellEmulator: true
 
 trustPolicy: off
-
 packages:
   - packages/*
+
 catalog:
-  '@mastra/core': ^1.0.0-beta.25
+  '@mastra/core': ^1.0.4
   ollama: ^0.6.3
+
 onlyBuiltDependencies:
   - better-sqlite3
   - esbuild
