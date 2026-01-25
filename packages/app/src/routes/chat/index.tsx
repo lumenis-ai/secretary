@@ -1,3 +1,4 @@
+import type { StorageThreadType } from '@mastra/core/memory'
 import type { StorageListMessagesOutput } from '@mastra/core/storage'
 import type { FileUIPart, TextUIPart, ToolUIPart } from 'ai'
 import type { PromptInputMessage } from '@/components/ai-elements/prompt-input'
@@ -34,25 +35,12 @@ import { Reasoning, ReasoningContent, ReasoningTrigger } from '@/components/ai-e
 import { Tool, ToolContent, ToolHeader, ToolInput, ToolOutput } from '@/components/ai-elements/tool'
 import { useServer } from '@/hooks/use-server'
 
-export default function Chat() {
-  const { serverBaseUrl } = useServer()
-
+function ChatContent({ transport, threadMessagesOutput }: { transport: DefaultChatTransport<any>, threadMessagesOutput?: StorageListMessagesOutput }) {
   const { messages, sendMessage, setMessages, status, error, addToolApprovalResponse } = useChat({
-    transport: new DefaultChatTransport({
-      api: `${serverBaseUrl}/staffs/model-manager`,
-    }),
+    transport,
     sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
   })
 
-  const [searchParams] = useSearchParams()
-  const currentThreadId = useMemo(() => searchParams.get('threadId'), [searchParams])
-  const { data: threadMessagesOutput } = useQuery<StorageListMessagesOutput>({
-    queryKey: ['thread', serverBaseUrl, currentThreadId],
-    queryFn: () => {
-      return fetch(`${serverBaseUrl}/api/memory/threads/${currentThreadId}/messages`).then(res => res.json())
-    },
-    enabled: () => !!currentThreadId,
-  })
   useEffect(() => {
     if (!threadMessagesOutput?.messages?.length) {
       return
@@ -267,5 +255,36 @@ export default function Chat() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function Chat() {
+  const { serverBaseUrl } = useServer()
+
+  const [searchParams] = useSearchParams()
+  const currentThreadId = useMemo(() => searchParams.get('threadId'), [searchParams])
+  const { data: threadDetail } = useQuery<StorageThreadType>({
+    queryKey: ['thread', 'details', serverBaseUrl, currentThreadId],
+    queryFn: () => {
+      return fetch(`${serverBaseUrl}/api/memory/threads/${currentThreadId}`).then(res => res.json())
+    },
+    enabled: () => !!currentThreadId,
+  })
+  const { data: threadMessagesOutput } = useQuery<StorageListMessagesOutput>({
+    queryKey: ['thread', 'messages', serverBaseUrl, currentThreadId],
+    queryFn: () => {
+      return fetch(`${serverBaseUrl}/api/memory/threads/${currentThreadId}/messages`).then(res => res.json())
+    },
+    enabled: () => !!currentThreadId,
+  })
+
+  const transport = useMemo(() => {
+    return new DefaultChatTransport({
+      api: `${serverBaseUrl}/staffs/${threadDetail?.resourceId}`,
+    })
+  }, [serverBaseUrl, threadDetail])
+
+  return (
+    <ChatContent key={threadDetail?.resourceId} transport={transport} threadMessagesOutput={threadMessagesOutput} />
   )
 }

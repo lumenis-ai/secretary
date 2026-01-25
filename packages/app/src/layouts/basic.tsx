@@ -3,12 +3,13 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { MessageSquare } from 'lucide-react'
 import { useMemo } from 'react'
 import { NavLink, Outlet, useLocation, useSearchParams } from 'react-router'
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider } from '@/components/ui/sidebar'
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { useServer } from '@/hooks/use-server'
 
 export default function BasicLayout() {
   const { serverBaseUrl } = useServer()
+
   const { data: infiniteThreads } = useInfiniteQuery<StorageListThreadsOutput>({
     queryKey: ['threads', serverBaseUrl],
     queryFn: ({ pageParam = 0 }) => {
@@ -32,7 +33,7 @@ export default function BasicLayout() {
   const currentThreadId = useMemo(() => searchParams.get('threadId'), [searchParams])
 
   return (
-    <SidebarProvider defaultOpen>
+    <SidebarProvider>
       <Sidebar>
         <SidebarContent>
           <SidebarGroup>
@@ -64,7 +65,10 @@ export default function BasicLayout() {
           </SidebarGroup>
         </SidebarContent>
       </Sidebar>
-      <main className="flex-1 flex flex-col overflow-hidden">
+      <main className="flex-1 flex flex-col overflow-hidden p-2">
+        <div className="flex items-center gap-2">
+          <SidebarTrigger />
+        </div>
         <Outlet />
       </main>
     </SidebarProvider>
