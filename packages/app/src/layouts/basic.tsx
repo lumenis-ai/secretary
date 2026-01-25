@@ -1,9 +1,9 @@
 import type { StorageListThreadsOutput } from '@mastra/core/storage'
 import { useInfiniteQuery } from '@tanstack/react-query'
-import { MessageSquare } from 'lucide-react'
+import { MessageSquare, Plus } from 'lucide-react'
 import { useMemo } from 'react'
-import { NavLink, Outlet, useLocation, useSearchParams } from 'react-router'
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { NavLink, Outlet, useLocation, useNavigate, useSearchParams } from 'react-router'
+import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { useServer } from '@/hooks/use-server'
 
@@ -32,6 +32,8 @@ export default function BasicLayout() {
   const [searchParams] = useSearchParams()
   const currentThreadId = useMemo(() => searchParams.get('threadId'), [searchParams])
 
+  const navigate = useNavigate()
+
   return (
     <SidebarProvider>
       <Sidebar>
@@ -40,6 +42,16 @@ export default function BasicLayout() {
             <SidebarGroupLabel>
               Threads
             </SidebarGroupLabel>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <SidebarGroupAction onClick={() => navigate('/chat')}>
+                  <Plus />
+                </SidebarGroupAction>
+              </TooltipTrigger>
+              <TooltipContent side="right" align="center">
+                New chat
+              </TooltipContent>
+            </Tooltip>
             <SidebarGroupContent>
               <SidebarMenu>
                 {threads.map(thread => (
