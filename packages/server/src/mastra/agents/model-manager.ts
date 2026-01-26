@@ -20,11 +20,15 @@ The model manager is familiar with the configuration of various models, includin
 - delete a model from Ollama with the tool \`deleteOllamaModel\`
 `,
   model: ollama('qwen3:1.7b'),
-  memory: new Memory(),
+  memory: new Memory({
+    options: {
+      lastMessages: 20,
+    },
+  }),
   tools: {
-    listOllamaModels,
-    showOllamaModel,
-    deleteOllamaModel,
-    pullOllamaModel,
+    [listOllamaModels.id]: listOllamaModels,
+    [pullOllamaModel.id]: pullOllamaModel,
+    [deleteOllamaModel.id]: deleteOllamaModel,
+    [showOllamaModel.id]: showOllamaModel,
   },
 })

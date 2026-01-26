@@ -23,7 +23,7 @@
     "husky": "^9.1.7",
     "jiti": "^2.6.1",
     "lint-staged": "^16.2.7",
-    "typescript": "^5.9.3",
+    "typescript": "catalog:",
     "zx": "^8.8.5"
   }
 }

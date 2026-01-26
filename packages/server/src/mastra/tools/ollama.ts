@@ -3,7 +3,7 @@ import ollama from 'ollama'
 import { z } from 'zod'
 
 export const listOllamaModels = createTool({
-  id: 'list-ollama-models',
+  id: 'ollama:list-models',
   description: 'List all local models from Ollama',
   outputSchema: z.object({
     models: z.array(z.object({
@@ -38,7 +38,7 @@ export const listOllamaModels = createTool({
 })
 
 export const showOllamaModel = createTool({
-  id: 'show-ollama-model',
+  id: 'ollama:show-model',
   description: 'Show a model detail from Ollama',
   inputSchema: z.object({
     model: z.string(),
@@ -69,7 +69,7 @@ export const showOllamaModel = createTool({
 })
 
 export const pullOllamaModel = createTool({
-  id: 'pull-ollama-model',
+  id: 'ollama:pull-model',
   description: 'Pull a model from Ollama',
   inputSchema: z.object({
     model: z.string().describe('Model name of ollama'),
@@ -87,7 +87,7 @@ export const pullOllamaModel = createTool({
 })
 
 export const deleteOllamaModel = createTool({
-  id: 'delete-ollama-model',
+  id: 'ollama:delete-model',
   description: 'Delete a model from Ollama',
   inputSchema: z.object({
     model: z.string().describe('Model name of ollama'),
